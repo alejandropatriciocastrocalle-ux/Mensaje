@@ -7,23 +7,53 @@
     body {
       margin: 0;
       padding: 0;
-      background: black;
       display: flex;
       justify-content: center;
       align-items: center;
       height: 100vh;
       font-family: Georgia, "Times New Roman", serif;
+      background: black;
       color: #2c2c2c;
       overflow: hidden;
     }
 
-    #app {
-      position: relative;
-      width: 360px;  /* ancho celular */
-      height: 640px; /* alto celular 9:16 */
-      overflow: hidden;
+    #start-screen {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: 10;
     }
 
+    #start-screen button {
+      padding: 20px 40px;
+      font-size: 30px;
+      border: none;
+      border-radius: 12px;
+      background: #f0e4d7;
+      box-shadow: 0 6px 15px rgba(0,0,0,0.5);
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    #start-screen button:hover {
+      background: #e6d2b5;
+    }
+
+    /* Contenedor de la aplicación */
+    #app {
+      position: relative;
+      display: none;
+      width: 100%;
+      height: 100%;
+    }
+
+    /* Video de fondo */
     #video-bg {
       position: absolute;
       top: 0;
@@ -31,31 +61,31 @@
       width: 100%;
       height: 100%;
       object-fit: cover;
-      z-index: 1;
+      z-index: -1;
     }
 
+    /* Texto centrado */
     #text {
       position: absolute;
-      top: 20%;    /* centrado verticalmente */
-      left: 10%;
-      right: 10%;
-      font-size: 22px;
+      top: 25%;
+      left: 5%;
+      right: 5%;
+      bottom: 25%;
+      font-size: 20px;
       text-align: justify;
-      z-index: 2;
+      white-space: pre-line;
       overflow-y: auto;
-      max-height: 50%;
     }
 
-    /* Botones encima del video, más arriba que antes */
+    /* Botones centrados, más arriba sobre el video */
     #buttons {
       position: absolute;
-      bottom: 35%;  /* subimos los botones desde el fondo */
+      bottom: 20%;  /* ajustado desde 10% a 20% */
       left: 50%;
       transform: translateX(-50%);
       display: flex;
       justify-content: center;
-      gap: 15px;
-      z-index: 2;
+      gap: 10px;
     }
 
     #buttons button {
@@ -63,32 +93,45 @@
       font-size: 20px;
       border: none;
       border-radius: 8px;
-      background: rgba(217,196,163,0.9);
+      background: #d9c4a3;
       cursor: pointer;
       transition: background 0.3s;
     }
 
     #buttons button:hover {
-      background: rgba(198,174,135,0.9);
+      background: #c6ae87;
     }
   </style>
 </head>
 <body>
+
+  <!-- Pantalla inicial -->
+  <div id="start-screen">
+    <button onclick="startApp()">Empezar</button>
+  </div>
+
+  <!-- Contenedor de la app -->
   <div id="app">
-    <video id="video-bg" autoplay muted loop>
-      <source src="video.mp4" type="video/mp4">
-    </video>
+    <video id="video-bg" src="video.mp4" autoplay muted loop playsinline></video>
     <div id="text"></div>
     <div id="buttons"></div>
   </div>
 
+  <!-- Música de fondo -->
+  <audio id="bg-music" loop>
+    <source src="musica.mp3" type="audio/mpeg">
+  </audio>
+
+  <!-- Sonido de pasar página -->
   <audio id="page-sound">
     <source src="page.mp3" type="audio/mpeg">
   </audio>
 
   <script>
+    const app = document.getElementById("app");
     const textElement = document.getElementById("text");
     const buttonsElement = document.getElementById("buttons");
+    const bgMusic = document.getElementById("bg-music");
     const pageSound = document.getElementById("page-sound");
 
     const screens = {
@@ -114,10 +157,19 @@
       "FIN": {
         text: "Gracias por leer 💖",
         buttons: [
-          { label: "Reiniciar", next: "PANTALLA 1" }
+          { label: "Reiniciar", next: "PANTALLA 1" },
+          { label: "Salir", next: "SALIR" }
         ]
       }
     };
+
+    function startApp() {
+      document.getElementById("start-screen").style.display = "none";
+      app.style.display = "block";
+      bgMusic.volume = 0.5;
+      bgMusic.play();
+      showScreen("PANTALLA 1");
+    }
 
     function showScreen(id) {
       const screen = screens[id];
@@ -129,15 +181,16 @@
         btn.onclick = () => {
           pageSound.currentTime = 0;
           pageSound.play();
-          showScreen(b.next);
+          if (b.next === "SALIR") {
+            window.close();
+          } else {
+            showScreen(b.next);
+          }
         };
         buttonsElement.appendChild(btn);
       });
     }
-
-    // Inicia directamente con PANTALLA 1
-    showScreen("PANTALLA 1");
   </script>
+
 </body>
 </html>
-
