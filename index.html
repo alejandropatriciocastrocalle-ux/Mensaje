@@ -130,10 +130,10 @@
 
     const screens = {
       "PANTALLA 1": {
-        text: "Hola Ada, lo siento, no hay ningún proyecto, pero tengo un mensaje para ti, ¿me regalas un poco de tu tiempo?",
+        text: "Hola Ada, lo siento no hay ningún proyecto,pero tengo algo importante que contarte ¿quisieras escucharme?",
         buttons: [
-          { label: "NO", next: "PANTALLA 1.1" },
-          { label: "CONTINUAR", next: "PANTALLA 2" }
+          { label: "Está bien", next: "PANTALLA 2" },
+          { label: "no", next: "PANTALLA 1.1" }
         ]
       },
       "PANTALLA 1.1": {
@@ -143,7 +143,31 @@
         ]
       },
       "PANTALLA 2": {
-        text: "Estuve muchos, muchos días y quizá el doble de noches tratando de comprender muchas cosas, en silencio...",
+        text: "Después de mucho tiempo dándole vueltas a mi mente, preguntándome si debía empezar o callar para siempre, entendí que el silencio no era lo que necesitaba, decidí tomar acción y así nació esta carta, en ella , te mostraré una parte pura y sincera de mi, espero sea de tu agrado:",
+        buttons: [
+          { label: "continuar", next: "PANTALLA 3" }
+        ]
+      },
+      "PANTALLA 3": {
+        text: "Estuve muchos, muchos días y quizá el doble de noches tratando de comprender muchas cosas, en silencio, no entendía cómo pude ser tan necio ,tan insensible , tan desagradecido , tan mala persona contigo , me rompía la cabeza tratando de entender cómo te pude ofrecer tan poco durante tanto tiempo y no haberme dado cuenta.\nPero ahora entiendo.",
+        buttons: [
+          { label: "continuar", next: "PANTALLA 4" }
+        ]
+      },
+      "PANTALLA 4": {
+        text: "Soportaste muchas cosas malas , en silencio algunas veces ,llorando a solas muchas tantas veces más…\n\nNo recuerdo haberte pedido perdón por esto , esa vez en la que te dije que la relación estaba bien y que tú eras la problemática,recuerdas?\n\nYo si ,mis errores pasan por mi cabeza día y noche ,pues no logro aún del todo asimilar que fui yo el que los cometió, así que hoy te pido perdón , perdón por haberte hecho soportar un nivel de ceguera tan alto … que mí miopía sería considerada un superpoder al lado de ella",
+        buttons: [
+          { label: "está bien", next: "PANTALLA 5" }
+        ]
+      },
+      "PANTALLA 5": {
+        text: "Ada ,  Tú me mostraste lo más noble y tierno que hay en el mundo, es por ti y gracias a ti que quise mejorar , pudiste simplemente haberme odiado y escupido , pero en cambio , me aconsejaste , me diste a ver mis errores, me resaltaste lo bueno y lo malo …. Al final solo me demostraste lo que ya sabía desde antes ,que  eres alguien muy especial , que hiciste cosas que solo una persona tan especial como tú pudo haber hecho . me mostraste mis defectos , mis carencias, pero también dijiste muchas cosas que valorabas de mí y como podía mejorarlas. En vez de hundirme en la miseria ,no solo me hiciste ver quién era, sino quién podía llegar a ser, creo que podría escribir muchos más texto demostrando lo agradecido que estoy por ello , y que estaré por el resto de mi vida, sea cual sea nuestro destino.",
+        buttons: [
+          { label: "está bien", next: "PANTALLA 6" }
+        ]
+      },
+      "PANTALLA 6": {
+        text: "Sabes , también me  pregunté si es correcto lo que estoy haciendo , si es el mejor camino…si es lo mejor.\n\nhoy me pregunto si   tal decisión existe  ,creo que  solo tomamos desiciones, sin más , no crees que si todo estuviera escrito ,  y existiera la mejor decisión, un camino lineal, la vida no tendría sentido.?\nNo existen las decisiones correctas , está en nosotros y nuestras acciones ,hacer que sea CORRECTA la decisión que tomemos\n\nYo ya tomé mi decisión",
         buttons: [
           { label: "Final", next: "FIN" }
         ]
@@ -165,7 +189,7 @@
       showScreen("PANTALLA 1");
     }
 
-    function fadeText(newText, duration = 800) {
+    function fadeText(newText, duration = 1000) {
       textElement.style.transition = `opacity ${duration}ms ease-in-out`;
       textElement.style.opacity = 0;
 
@@ -178,8 +202,8 @@
     function showScreen(id) {
       const screen = screens[id];
 
-      // Aplicar fade con duración mayor para todos los textos
-      fadeText(screen.text, 1000); // 1 segundo para todos los textos
+      // Aplicar fade a todos los textos
+      fadeText(screen.text, 1000);
 
       buttonsElement.innerHTML = "";
       screen.buttons.forEach(b => {
