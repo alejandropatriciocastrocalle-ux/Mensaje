@@ -13,7 +13,7 @@
       height: 100vh;
       font-family: Georgia, "Times New Roman", serif;
       background: black;
-      color: #2c2c2c;
+      color: #ffffff; /* color de texto por defecto blanco */
       overflow: hidden;
     }
 
@@ -31,21 +31,20 @@
     }
 
     #start-screen button {
-      padding: 30px 60px; /* 50% más grande que antes */
-      font-size: 45px;     /* 50% más grande que antes */
+      padding: 30px 60px; 
+      font-size: 45px;    
       border: none;
       border-radius: 12px;
-      background: fuchsia; /* color fuxia */
+      background: fuchsia;
       box-shadow: 0 6px 15px rgba(0,0,0,0.5);
       cursor: pointer;
       transition: background 0.3s;
     }
 
     #start-screen button:hover {
-      background: #ff33ff; /* un fuxia más brillante al pasar el mouse */
+      background: #ff33ff; 
     }
 
-    /* Contenedor de la aplicación */
     #app {
       position: relative;
       display: none;
@@ -53,7 +52,6 @@
       height: 100%;
     }
 
-    /* Video de fondo */
     #video-bg {
       position: absolute;
       top: 0;
@@ -64,20 +62,19 @@
       z-index: -1;
     }
 
-    /* Texto centrado */
     #text {
       position: absolute;
       top: 25%;
       left: 5%;
       right: 5%;
       bottom: 25%;
-      font-size: 20px;
+      font-size: 30px;   /* aumentado 50% */
       text-align: justify;
       white-space: pre-line;
       overflow-y: auto;
+      color: white;      /* texto blanco */
     }
 
-    /* Botones centrados, más arriba sobre el video */
     #buttons {
       position: absolute;
       bottom: 20%;
@@ -89,11 +86,11 @@
     }
 
     #buttons button {
-      padding: 21px 42px; /* 50% más grande */
-      font-size: 30px;    /* 50% más grande */
+      padding: 21px 42px;
+      font-size: 30px;    
       border: none;
       border-radius: 8px;
-      background: fuchsia; /* fuxia */
+      background: fuchsia;
       cursor: pointer;
       transition: background 0.3s;
     }
@@ -105,24 +102,20 @@
 </head>
 <body>
 
-  <!-- Pantalla inicial -->
   <div id="start-screen">
     <button onclick="startApp()">Empezar</button>
   </div>
 
-  <!-- Contenedor de la app -->
   <div id="app">
     <video id="video-bg" src="video.mp4" autoplay muted loop playsinline></video>
     <div id="text"></div>
     <div id="buttons"></div>
   </div>
 
-  <!-- Música de fondo -->
   <audio id="bg-music" loop>
     <source src="musica.mp3" type="audio/mpeg">
   </audio>
 
-  <!-- Sonido de pasar página -->
   <audio id="page-sound">
     <source src="page.mp3" type="audio/mpeg">
   </audio>
@@ -194,3 +187,4 @@
 
 </body>
 </html>
+
