@@ -1,79 +1,200 @@
-<style>
-  body, html {
-    margin: 0;
-    padding: 0;
-    height: 100%;
-    width: 100%;
-    background: black;
-    font-family: Georgia, "Times New Roman", serif;
-    color: #2c2c2c;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mensaje Interactivo</title>
+  <style>
+    /* Estilos base */
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: Georgia, "Times New Roman", serif;
+      background: black;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      overflow: hidden;
+      color: #2c2c2c;
+    }
 
-  #app {
-    position: relative;
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
-  }
+    /* Video de fondo */
+    #bg-video {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      object-fit: cover;
+      z-index: -1;
+    }
 
-  /* Video de fondo */
-  #bg-video {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    z-index: -1;
-  }
+    /* Contenedor de la aplicación */
+    #app {
+      position: relative;
+      width: 90vw;
+      max-width: 450px; /* formato móvil 9:16 */
+      height: 160vh;
+      display: none;
+      overflow: hidden;
+    }
 
-  #text {
-    position: absolute;
-    top: 15%;     /* margen superior */
-    left: 5%;     /* margen izquierdo */
-    right: 5%;    /* margen derecho */
-    bottom: 20%;  /* margen inferior */
-    font-size: 20px;
-    text-align: justify;
-    overflow-y: auto;
-  }
+    /* Texto de la carta */
+    #text {
+      position: absolute;
+      top: 10%;
+      left: 7%;
+      right: 7%;
+      bottom: 20%;
+      font-size: 22px;
+      text-align: justify;
+      white-space: pre-line;
+      overflow-y: auto;
+    }
 
-  #buttons {
-    position: absolute;
-    bottom: 5%;   /* margen inferior */
-    left: 50%;
-    transform: translateX(-50%);
-    display: flex;
-    gap: 15px;
-  }
+    /* Botones */
+    #buttons {
+      position: absolute;
+      bottom: 5%;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
 
-  #buttons button {
-    padding: 12px 25px;
-    font-size: 18px;
-    border: none;
-    border-radius: 8px;
-    background: #d9c4a3;
-    cursor: pointer;
-  }
+    #buttons button {
+      padding: 12px 24px;
+      font-size: 18px;
+      border: none;
+      border-radius: 8px;
+      background: #d9c4a3;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
 
-  #buttons button:hover {
-    background: #c6ae87;
-  }
+    #buttons button:hover {
+      background: #c6ae87;
+    }
 
-  #start-screen button {
-    padding: 15px 30px;
-    font-size: 24px;
-    border: none;
-    border-radius: 12px;
-    background: #f0e4d7;
-    cursor: pointer;
-  }
-</style>
+    /* Pantalla inicial */
+    #start-screen {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+    }
 
-<!-- Video de fondo -->
-<video id="bg-video" autoplay muted loop>
-  <source src="video.mp4" type="video/mp4">
-</video>
+    #start-screen button {
+      padding: 20px 40px;
+      font-size: 26px;
+      border: none;
+      border-radius: 12px;
+      background: #f0e4d7;
+      box-shadow: 0 6px 15px rgba(0,0,0,0.5);
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    #start-screen button:hover {
+      background: #e6d2b5;
+    }
+
+  </style>
+</head>
+<body>
+
+  <!-- Video de fondo -->
+  <video id="bg-video" autoplay muted loop>
+    <source src="video.mp4" type="video/mp4">
+  </video>
+
+  <!-- Pantalla inicial -->
+  <div id="start-screen">
+    <button onclick="startApp()">Empezar</button>
+  </div>
+
+  <!-- Contenedor de la carta -->
+  <div id="app">
+    <div id="text"></div>
+    <div id="buttons"></div>
+  </div>
+
+  <!-- Música de fondo -->
+  <audio id="bg-music" loop>
+    <source src="musica.mp3" type="audio/mpeg">
+  </audio>
+
+  <!-- Sonido de pasar página -->
+  <audio id="page-sound">
+    <source src="page.mp3" type="audio/mpeg">
+  </audio>
+
+  <script>
+    const app = document.getElementById("app");
+    const textElement = document.getElementById("text");
+    const buttonsElement = document.getElementById("buttons");
+    const bgMusic = document.getElementById("bg-music");
+    const pageSound = document.getElementById("page-sound");
+
+    const screens = {
+      "PANTALLA 1": {
+        text: "Hola Ada, lo siento, no hay ningún proyecto, pero tengo un mensaje para ti, ¿me regalas un poco de tu tiempo?",
+        buttons: [
+          { label: "NO", next: "PANTALLA 1.1" },
+          { label: "CONTINUAR", next: "PANTALLA 2" }
+        ]
+      },
+      "PANTALLA 1.1": {
+        text: "por favor…",
+        buttons: [
+          { label: "está bien", next: "PANTALLA 2" }
+        ]
+      },
+      "PANTALLA 2": {
+        text: "Estuve muchos, muchos días y quizá el doble de noches tratando de comprender muchas cosas, en silencio...",
+        buttons: [
+          { label: "Final", next: "FIN" }
+        ]
+      },
+      "FIN": {
+        text: "Gracias por leer 💖",
+        buttons: [
+          { label: "Reiniciar", next: "PANTALLA 1" },
+          { label: "Salir", next: "SALIR" }
+        ]
+      }
+    };
+
+    function startApp() {
+      document.getElementById("start-screen").style.display = "none";
+      app.style.display = "block";
+      bgMusic.volume = 0.5;
+      bgMusic.play();
+      showScreen("PANTALLA 1");
+    }
+
+    function showScreen(id) {
+      const screen = screens[id];
+      textElement.textContent = screen.text;
+      buttonsElement.innerHTML = "";
+      screen.buttons.forEach(b => {
+        const btn = document.createElement("button");
+        btn.textContent = b.label;
+        btn.onclick = () => {
+          pageSound.currentTime = 0;
+          pageSound.play();
+          if (b.next === "SALIR") {
+            window.close();
+          } else {
+            showScreen(b.next);
+          }
+        };
+        buttonsElement.appendChild(btn);
+      });
+    }
+  </script>
+</body>
+</html>
