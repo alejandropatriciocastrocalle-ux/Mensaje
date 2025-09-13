@@ -73,8 +73,7 @@
       white-space: pre-line;
       overflow-y: auto;
       color: white;
-      opacity: 0;              /* inicialmente invisible */
-      transition: opacity 1s ease-in-out; /* transición de aparición */
+      opacity: 0;
     }
 
     #buttons {
@@ -166,13 +165,21 @@
       showScreen("PANTALLA 1");
     }
 
+    function fadeText(newText, duration = 800) {
+      textElement.style.transition = `opacity ${duration}ms ease-in-out`;
+      textElement.style.opacity = 0;
+
+      setTimeout(() => {
+        textElement.textContent = newText;
+        textElement.style.opacity = 1;
+      }, duration);
+    }
+
     function showScreen(id) {
       const screen = screens[id];
-      textElement.style.opacity = 0; // Oculta antes de cambiar
-      setTimeout(() => {
-        textElement.textContent = screen.text;
-        textElement.style.opacity = 1; // Aparece con transición
-      }, 50);
+
+      // Aplicar fade con duración mayor para todos los textos
+      fadeText(screen.text, 1000); // 1 segundo para todos los textos
 
       buttonsElement.innerHTML = "";
       screen.buttons.forEach(b => {
@@ -194,4 +201,3 @@
 
 </body>
 </html>
-
