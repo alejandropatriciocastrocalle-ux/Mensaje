@@ -13,7 +13,7 @@
       height: 100vh;
       font-family: Georgia, "Times New Roman", serif;
       background: black;
-      color: #ffffff; /* color de texto por defecto blanco */
+      color: #ffffff;
       overflow: hidden;
     }
 
@@ -31,8 +31,8 @@
     }
 
     #start-screen button {
-      padding: 30px 60px; 
-      font-size: 45px;    
+      padding: 30px 60px;
+      font-size: 45px;
       border: none;
       border-radius: 12px;
       background: fuchsia;
@@ -42,7 +42,7 @@
     }
 
     #start-screen button:hover {
-      background: #ff33ff; 
+      background: #ff33ff;
     }
 
     #app {
@@ -73,8 +73,8 @@
       white-space: pre-line;
       overflow-y: auto;
       color: white;
-      opacity: 0; /* empieza invisible */
-      transition: opacity 1s ease-in; /* transición suave */
+      opacity: 0;              /* inicialmente invisible */
+      transition: opacity 1s ease-in-out; /* transición de aparición */
     }
 
     #buttons {
@@ -89,7 +89,7 @@
 
     #buttons button {
       padding: 21px 42px;
-      font-size: 30px;    
+      font-size: 30px;
       border: none;
       border-radius: 8px;
       background: fuchsia;
@@ -168,12 +168,10 @@
 
     function showScreen(id) {
       const screen = screens[id];
-      textElement.style.opacity = 0; // reset opacidad
-      textElement.textContent = screen.text;
-
-      // Espera un pequeño instante antes de hacer la transición de opacidad
+      textElement.style.opacity = 0; // Oculta antes de cambiar
       setTimeout(() => {
-        textElement.style.opacity = 1;
+        textElement.textContent = screen.text;
+        textElement.style.opacity = 1; // Aparece con transición
       }, 50);
 
       buttonsElement.innerHTML = "";
@@ -196,3 +194,4 @@
 
 </body>
 </html>
+
