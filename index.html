@@ -1,227 +1,234 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <title>Mensaje Interactivo</title>
-  <style>
-    body {
-      margin: 0;
-      padding: 0;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      font-family: Georgia, "Times New Roman", serif;
-      background: black;
-      color: #ffffff;
-      overflow: hidden;
-    }
-
-    #start-screen {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      flex-direction: column;
-      width: 100%;
-      height: 100%;
-      position: absolute;
-      top: 0;
-      left: 0;
-      z-index: 10;
-    }
-
-    #start-screen button {
-      padding: 30px 60px;
-      font-size: 45px;
-      border: none;
-      border-radius: 12px;
-      background: fuchsia;
-      box-shadow: 0 6px 15px rgba(0,0,0,0.5);
-      cursor: pointer;
-      transition: background 0.3s;
-    }
-
-    #start-screen button:hover {
-      background: #ff33ff;
-    }
-
-    #app {
-      position: relative;
-      display: none;
-      width: 100%;
-      height: 100%;
-    }
-
-    #video-bg {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      z-index: -1;
-    }
-
-    #text {
-      position: absolute;
-      top: 25%;
-      left: 10%;
-      right: 10%;
-      bottom: 25%;
-      font-size: 30px;
-      text-align: justify;
-      white-space: pre-line;
-      overflow-y: auto;
-      color: white;
-      opacity: 0;
-    }
-
-    #buttons {
-      position: absolute;
-      bottom: 20%;
-      left: 50%;
-      transform: translateX(-50%);
-      display: flex;
-      justify-content: center;
-      gap: 10px;
-    }
-
-    #buttons button {
-      padding: 21px 42px;
-      font-size: 30px;
-      border: none;
-      border-radius: 8px;
-      background: fuchsia;
-      cursor: pointer;
-      transition: background 0.3s;
-    }
-
-    #buttons button:hover {
-      background: #ff33ff;
-    }
-  </style>
+<meta charset="UTF-8">
+<title>Mensaje Interactivo</title>
+<style>
+body {
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  font-family: Georgia, "Times New Roman", serif;
+  background: black;
+  color: #ffffff;
+  overflow: hidden;
+}
+#start-screen {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 10;
+}
+#start-screen button {
+  padding: 30px 60px;
+  font-size: 45px;
+  border: none;
+  border-radius: 12px;
+  background: fuchsia;
+  box-shadow: 0 6px 15px rgba(0,0,0,0.5);
+  cursor: pointer;
+  transition: background 0.3s;
+}
+#start-screen button:hover {
+  background: #ff33ff;
+}
+#app {
+  position: relative;
+  display: none;
+  width: 100%;
+  height: 100%;
+}
+#video-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: -1;
+}
+#text {
+  position: absolute;
+  top: 25%;
+  left: 10%;
+  right: 10%;
+  bottom: 25%;
+  font-size: 30px;
+  text-align: justify;
+  white-space: pre-line;
+  overflow-y: auto;
+  color: white;
+  opacity: 0;
+}
+#buttons {
+  position: absolute;
+  bottom: 20%;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+#buttons button {
+  padding: 21px 42px;
+  font-size: 30px;
+  border: none;
+  border-radius: 8px;
+  background: fuchsia;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+#buttons button:hover {
+  background: #ff33ff;
+}
+#image-screen {
+  position: absolute;
+  top: 25%;
+  left: 10%;
+  right: 10%;
+  bottom: 25%;
+  display: none;
+  justify-content: center;
+  align-items: center;
+  opacity: 0; /* inicialmente transparente */
+}
+#image-screen img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+</style>
 </head>
 <body>
 
-  <div id="start-screen">
-    <button onclick="startApp()">Empezar</button>
-  </div>
+<div id="start-screen">
+  <button onclick="startApp()">Empezar</button>
+</div>
 
-  <div id="app">
-    <video id="video-bg" src="video.mp4" autoplay muted loop playsinline></video>
-    <div id="text"></div>
-    <div id="buttons"></div>
-  </div>
+<div id="app">
+  <video id="video-bg" src="video.mp4" autoplay muted loop playsinline></video>
+  <div id="text"></div>
+  <div id="image-screen"><img id="image-content" src=""></div>
+  <div id="buttons"></div>
+</div>
 
-  <audio id="bg-music" loop>
-    <source src="musica.mp3" type="audio/mpeg">
-  </audio>
+<audio id="bg-music" loop>
+  <source src="musica.mp3" type="audio/mpeg">
+</audio>
 
-  <audio id="page-sound">
-    <source src="page.mp3" type="audio/mpeg">
-  </audio>
+<audio id="page-sound">
+  <source src="page.mp3" type="audio/mpeg">
+</audio>
 
-  <script>
-    const app = document.getElementById("app");
-    const textElement = document.getElementById("text");
-    const buttonsElement = document.getElementById("buttons");
-    const bgMusic = document.getElementById("bg-music");
-    const pageSound = document.getElementById("page-sound");
+<script>
+const app = document.getElementById("app");
+const textElement = document.getElementById("text");
+const buttonsElement = document.getElementById("buttons");
+const bgMusic = document.getElementById("bg-music");
+const pageSound = document.getElementById("page-sound");
+const imageScreen = document.getElementById("image-screen");
+const imageContent = document.getElementById("image-content");
 
-    const screens = {
-      "PANTALLA 1": {
-        text: "Hola Ada, lo siento no hay ningún proyecto,pero tengo algo importante que contarte ¿quisieras escucharme?",
-        buttons: [
-          { label: "Está bien", next: "PANTALLA 2" },
-          { label: "no", next: "PANTALLA 1.1" }
-        ]
-      },
-      "PANTALLA 1.1": {
-        text: "por favor…",
-        buttons: [
-          { label: "está bien", next: "PANTALLA 2" }
-        ]
-      },
-      "PANTALLA 2": {
-        text: "Después de mucho tiempo dándole vueltas a mi mente, preguntándome si debía empezar o callar para siempre, entendí que el silencio no era lo que necesitaba, decidí tomar acción y así nació esta carta, en ella , te mostraré una parte pura y sincera de mi, espero sea de tu agrado:",
-        buttons: [
-          { label: "continuar", next: "PANTALLA 3" }
-        ]
-      },
-      "PANTALLA 3": {
-        text: "Estuve muchos, muchos días y quizá el doble de noches tratando de comprender muchas cosas, en silencio, no entendía cómo pude ser tan necio ,tan insensible , tan desagradecido , tan mala persona contigo , me rompía la cabeza tratando de entender cómo te pude ofrecer tan poco durante tanto tiempo y no haberme dado cuenta.\nPero ahora entiendo.",
-        buttons: [
-          { label: "continuar", next: "PANTALLA 4" }
-        ]
-      },
-      "PANTALLA 4": {
-        text: "Soportaste muchas cosas malas , en silencio algunas veces ,llorando a solas muchas tantas veces más…\n\nNo recuerdo haberte pedido perdón por esto , esa vez en la que te dije que la relación estaba bien y que tú eras la problemática,recuerdas?\n\nYo si ,mis errores pasan por mi cabeza día y noche ,pues no logro aún del todo asimilar que fui yo el que los cometió, así que hoy te pido perdón , perdón por haberte hecho soportar un nivel de ceguera tan alto … que mí miopía sería considerada un superpoder al lado de ella",
-        buttons: [
-          { label: "está bien", next: "PANTALLA 5" }
-        ]
-      },
-      "PANTALLA 5": {
-        text: "Ada ,  Tú me mostraste lo más noble y tierno que hay en el mundo, es por ti y gracias a ti que quise mejorar , pudiste simplemente haberme odiado y escupido , pero en cambio , me aconsejaste , me diste a ver mis errores, me resaltaste lo bueno y lo malo …. Al final solo me demostraste lo que ya sabía desde antes ,que  eres alguien muy especial , que hiciste cosas que solo una persona tan especial como tú pudo haber hecho . me mostraste mis defectos , mis carencias, pero también dijiste muchas cosas que valorabas de mí y como podía mejorarlas. En vez de hundirme en la miseria ,no solo me hiciste ver quién era, sino quién podía llegar a ser, creo que podría escribir muchos más texto demostrando lo agradecido que estoy por ello , y que estaré por el resto de mi vida, sea cual sea nuestro destino.",
-        buttons: [
-          { label: "está bien", next: "PANTALLA 6" }
-        ]
-      },
-      "PANTALLA 6": {
-        text: "Sabes , también me  pregunté si es correcto lo que estoy haciendo , si es el mejor camino…si es lo mejor.\n\nhoy me pregunto si   tal decisión existe  ,creo que  solo tomamos desiciones, sin más , no crees que si todo estuviera escrito ,  y existiera la mejor decisión, un camino lineal, la vida no tendría sentido.?\nNo existen las decisiones correctas , está en nosotros y nuestras acciones ,hacer que sea CORRECTA la decisión que tomemos\n\nYo ya tomé mi decisión",
-        buttons: [
-          { label: "Final", next: "FIN" }
-        ]
-      },
-      "FIN": {
-        text: "Gracias por leer 💖",
-        buttons: [
-          { label: "Reiniciar", next: "PANTALLA 1" },
-          { label: "Salir", next: "SALIR" }
-        ]
+const screens = {
+  "PANTALLA 1": { text: "Hola Ada, lo siento no hay ningún proyecto,pero tengo algo importante que contarte ¿quisieras escucharme?", buttons: [ { label: "Está bien", next: "PANTALLA 2" }, { label: "no", next: "PANTALLA 1.1" } ] },
+  "PANTALLA 1.1": { text: "por favor…", buttons: [ { label: "está bien", next: "PANTALLA 2" } ] },
+  "PANTALLA 2": { text: "Después de mucho tiempo dándole vueltas a mi mente, preguntándome si debía empezar o callar para siempre, entendí que el silencio no era lo que necesitaba, decidí tomar acción y así nació esta carta, en ella , te mostraré una parte pura y sincera de mi, espero sea de tu agrado:", buttons: [ { label: "continuar", next: "PANTALLA 3" } ] },
+  "PANTALLA 3": { text: "Estuve muchos, muchos días y quizá el doble de noches tratando de comprender muchas cosas, en silencio, no entendía cómo pude ser tan necio ,tan insensible , tan desagradecido , tan mala persona contigo , me rompía la cabeza tratando de entender cómo te pude ofrecer tan poco durante tanto tiempo y no haberme dado cuenta.\nPero ahora entiendo.", buttons: [ { label: "continuar", next: "PANTALLA 4" } ] },
+  "PANTALLA 4": { text: "Soportaste muchas cosas malas , en silencio algunas veces ,llorando a solas muchas tantas veces más…\n\nNo recuerdo haberte pedido perdón por esto , esa vez en la que te dije que la relación estaba bien y que tú eras la problemática,recuerdas?\n\nYo si ,mis errores pasan por mi cabeza día y noche ,pues no logro aún del todo asimilar que fui yo el que los cometió, así que hoy te pido perdón , perdón por haberte hecho soportar un nivel de ceguera tan alto … que mí miopía sería considerada un superpoder al lado de ella", buttons: [ { label: "está bien", next: "PANTALLA 5" } ] },
+  "PANTALLA 5": { text: "Ada , Tú me mostraste lo más noble y tierno que hay en el mundo, es por ti y gracias a ti que quise mejorar , pudiste simplemente haberme odiado y escupido , pero en cambio , me aconsejaste , me diste a ver mis errores, me resaltaste lo bueno y lo malo …. Al final solo me demostraste lo que ya sabía desde antes ,que eres alguien muy especial , que hiciste cosas que solo una persona tan especial como tú pudo haber hecho . me mostraste mis defectos , mis carencias, pero también dijiste muchas cosas que valorabas de mí y como podía mejorarlas. En vez de hundirme en la miseria ,no solo me hiciste ver quién era, sino quién podía llegar a ser, creo que podría escribir muchos más texto demostrando lo agradecido que estoy por ello , y que estaré por el resto de mi vida, sea cual sea nuestro destino.", buttons: [ { label: "está bien", next: "PANTALLA 6" } ] },
+  "PANTALLA 6": { text: "Sabes , también me pregunté si es correcto lo que estoy haciendo , si es el mejor camino…si es lo mejor.\n\nhoy me pregunto si tal decisión existe ,creo que solo tomamos desiciones, sin más , no crees que si todo estuviera escrito , y existiera la mejor decisión, un camino lineal, la vida no tendría sentido.?\nNo existen las decisiones correctas , está en nosotros y nuestras acciones ,hacer que sea CORRECTA la decisión que tomemos\n\nYo ya tomé mi decisión", buttons: [ { label: "continuar", next: "PANTALLA 7" } ] },
+  "PANTALLA 7": { text: "durante mucho tiempo mis errores del pasado me gritaron que no te merezco, que no te haga perder el tiempo , que ya todo acabó, sin embargo mi corazón lo niega rotundamente y me dice ….quiero , quiero", buttons: [ { label: "continuar", next: "PANTALLA 8" } ] },
+  "PANTALLA 8": { type: "typing", messages: [ "Quiero ser el vendaje que cierre tus heridas,", " quiero estar a tu lado y abrigarte cuando las noches sean frías,", " quiero ser el hombro donde puedas llorar hasta quedarte dormida,", " quiero volver a ser el motivo de tus sonrisas,", " quiero que conozcamos el mundo juntos , que se hagan realidad tantos planes y sueños que quiero cumplir a tu lado,", " Adahana,  QUIERO VIVIR MI VIDA CONTIGO , quiero demostrarte que puedo amarte tan fuerte como nunca y quiero que tú me ames también ." ], buttons: [ { label: "Siguiente", next: "PANTALLA 9" } ] },
+  "PANTALLA 9": { text: "Quiero que nos acostemos en tu sillón como antes , que algún gato se suba allí y nos riamos ambos de él , o quizá que tú te molestes con él por alguna razón que ya no recuerdo , lo que sí recuerdo es que una vez te describí cuál era mi significado de felicidad , lo recuerdas? Bueno si no lo entendiste , hoy te lo demuestro con una foto , una muy Linda que miro 8 de cada 7 días y que me recuerda que puedo ser feliz.", buttons: [ { label: "continuar", next: "PANTALLA 10" } ] },
+  "PANTALLA 10": { type: "image", image: "image.webp", buttons: [ { label: "continuar", next: "PANTALLA 11" } ] },
+  "PANTALLA 11": { text: "Sé que hay muchas cosas que, si sucede el caso,deberíamos conversar y arreglar , algunas diferencias quizá, pero te prometo que dispondría mi vida entera tratando de descifrarte, solo necesito que me permits mostrarte la mejor versión de mí que he conseguido hasta ahora. Hay un dicho que dice que nunca te bañas en las mismas aguas de un río, y es verdad , las aguas cambian ,pero nuestra esencia permanece, no debemos temerle a la corriente , muchas veces no se lleva con ella nuestro ser , a veces ,solo pule lo que somos , lava nuestras heridas , nuestras imperfecciones , no nos roba nuestra identidad, nos ayuda a ser más limpios y fieles a nosotros mismos .", buttons: [ { label: "continuar", next: "PANTALLA 12" } ] },
+  "PANTALLA 12": { text: "El río me enseñó también que no soy otro, pero tampoco el mismo de ayer, por favor , acércate y mírame con otros ojos ,no como mirando al pasado , sino imaginando un nuevo horizonte , uno que me haría muy feliz mostrarte . Serás tú quien decida si vale la pena o no dar un último salto de riesgo por mi . Te prometo que será una muy buena inversión que te dará retornos en forma de felicidad en el mediano y largo plazo.", buttons: [ { label: "continuar", next: "PANTALLA 13" } ] },
+  "PANTALLA 13": { text: "Necesitas tiempo de pensarlo ? No importa , he aprendido la paciencia , tantas veces en las que mi manos temblaban por escribirte ,pero en las que escogí guardar silencio , pues entendí que aún no era el momento. Así que no te preocupes si necesitas tiempo , te esperaré cuanto sea necesario . Estaré aquí ,parado en el río , esperando que la corriente te empuje hacia mi nuevamente,si lo dejas hacerlo …", buttons: [ { label: "Final", next: "FIN" } ] },
+  "FIN": { text: "Gracias por leer 💖", buttons: [ { label: "Reiniciar", next: "PANTALLA 1" }, { label: "Salir", next: "SALIR" } ] }
+};
+
+function startApp() {
+  document.getElementById("start-screen").style.display = "none";
+  app.style.display = "block";
+  bgMusic.volume = 0.5;
+  bgMusic.play();
+  showScreen("PANTALLA 1");
+}
+
+function fadeText(newText, duration = 1000) {
+  textElement.style.transition = `opacity ${duration}ms ease-in-out`;
+  textElement.style.opacity = 0;
+  setTimeout(() => {
+    textElement.textContent = newText;
+    textElement.style.opacity = 1;
+  }, duration);
+}
+
+function typeMessages(messages, delay = 1000, index = 0) {
+  if (index >= messages.length) return;
+  let i = 0;
+  const message = messages[index];
+  const interval = setInterval(() => {
+    textElement.textContent += message[i];
+    i++;
+    if (i >= message.length) {
+      clearInterval(interval);
+      setTimeout(() => {
+        typeMessages(messages, delay, index + 1);
+      }, delay);
+    }
+  }, 50);
+}
+
+function showScreen(id) {
+  const screen = screens[id];
+  buttonsElement.innerHTML = "";
+  textElement.style.display = "block";
+  imageScreen.style.display = "none";
+
+  if(screen.type === "image") {
+    textElement.style.display = "none";
+    imageScreen.style.display = "flex";
+    imageScreen.style.opacity = 0; // inicial transparente
+    imageContent.src = screen.image;
+    setTimeout(() => { // efecto fade-in
+      imageScreen.style.transition = "opacity 1s ease-in-out";
+      imageScreen.style.opacity = 1;
+    }, 50);
+  } else if (screen.type === "typing") {
+    textElement.textContent = "";
+    textElement.style.opacity = 1;
+    typeMessages(screen.messages, 1000);
+  } else {
+    fadeText(screen.text, 1000);
+  }
+
+  screen.buttons.forEach(b => {
+    const btn = document.createElement("button");
+    btn.textContent = b.label;
+    btn.onclick = () => {
+      pageSound.currentTime = 0;
+      pageSound.play();
+      if (b.next === "SALIR") {
+        window.close();
+      } else {
+        showScreen(b.next);
       }
     };
+    buttonsElement.appendChild(btn);
+  });
 
-    function startApp() {
-      document.getElementById("start-screen").style.display = "none";
-      app.style.display = "block";
-      bgMusic.volume = 0.5;
-      bgMusic.play();
-      showScreen("PANTALLA 1");
-    }
-
-    function fadeText(newText, duration = 1000) {
-      textElement.style.transition = `opacity ${duration}ms ease-in-out`;
-      textElement.style.opacity = 0;
-
-      setTimeout(() => {
-        textElement.textContent = newText;
-        textElement.style.opacity = 1;
-      }, duration);
-    }
-
-    function showScreen(id) {
-      const screen = screens[id];
-
-      // Aplicar fade a todos los textos
-      fadeText(screen.text, 1000);
-
-      buttonsElement.innerHTML = "";
-      screen.buttons.forEach(b => {
-        const btn = document.createElement("button");
-        btn.textContent = b.label;
-        btn.onclick = () => {
-          pageSound.currentTime = 0;
-          pageSound.play();
-          if (b.next === "SALIR") {
-            window.close();
-          } else {
-            showScreen(b.next);
-          }
-        };
-        buttonsElement.appendChild(btn);
-      });
-    }
-  </script>
-
+  buttonsElement.style.display = "flex"; // aseguramos que el botón siempre se vea
+}
+</script>
 </body>
 </html>
