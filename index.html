@@ -68,11 +68,13 @@
       left: 10%;
       right: 10%;
       bottom: 25%;
-      font-size: 30px;   /* aumentado 50% */
+      font-size: 30px;
       text-align: justify;
       white-space: pre-line;
       overflow-y: auto;
-      color: white;      /* texto blanco */
+      color: white;
+      opacity: 0; /* empieza invisible */
+      transition: opacity 1s ease-in; /* transición suave */
     }
 
     #buttons {
@@ -166,7 +168,14 @@
 
     function showScreen(id) {
       const screen = screens[id];
+      textElement.style.opacity = 0; // reset opacidad
       textElement.textContent = screen.text;
+
+      // Espera un pequeño instante antes de hacer la transición de opacidad
+      setTimeout(() => {
+        textElement.style.opacity = 1;
+      }, 50);
+
       buttonsElement.innerHTML = "";
       screen.buttons.forEach(b => {
         const btn = document.createElement("button");
@@ -187,5 +196,3 @@
 
 </body>
 </html>
-
-
