@@ -13,14 +13,14 @@
       align-items: center;
       height: 100vh;
       font-family: Georgia, "Times New Roman", serif;
-      color: #ffffff;
+      color: #2c2c2c;
       overflow: hidden;
     }
 
     #app {
       position: relative;
-      width: 360px;  /* ancho típico de celular */
-      height: 640px; /* alto típico de celular 9:16 */
+      width: 360px;  /* ancho celular */
+      height: 640px; /* alto celular 9:16 */
       overflow: hidden;
     }
 
@@ -36,30 +36,31 @@
 
     #text {
       position: absolute;
-      top: 20%;    /* ajustado para centrar */
+      top: 20%;    /* centrado verticalmente */
       left: 10%;
       right: 10%;
-      font-size: 20px;
+      font-size: 22px;
       text-align: justify;
       z-index: 2;
       overflow-y: auto;
       max-height: 50%;
     }
 
+    /* Botones encima del video, más arriba que antes */
     #buttons {
       position: absolute;
-      bottom: 20%;  /* subimos los botones desde el fondo */
+      bottom: 35%;  /* subimos los botones desde el fondo */
       left: 50%;
       transform: translateX(-50%);
       display: flex;
       justify-content: center;
-      gap: 10px;
+      gap: 15px;
       z-index: 2;
     }
 
     #buttons button {
-      padding: 12px 24px;
-      font-size: 18px;
+      padding: 14px 28px;
+      font-size: 20px;
       border: none;
       border-radius: 8px;
       background: rgba(217,196,163,0.9);
@@ -134,8 +135,9 @@
       });
     }
 
-    // Iniciar con PANTALLA 1
+    // Inicia directamente con PANTALLA 1
     showScreen("PANTALLA 1");
   </script>
 </body>
 </html>
+
