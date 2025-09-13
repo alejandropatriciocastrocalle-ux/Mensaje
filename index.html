@@ -2,94 +2,37 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Mensaje Interactivo</title>
   <style>
-    /* Estilos base */
     body {
       margin: 0;
       padding: 0;
-      font-family: Georgia, "Times New Roman", serif;
-      background: black;
       display: flex;
       justify-content: center;
       align-items: center;
       height: 100vh;
-      overflow: hidden;
+      font-family: Georgia, "Times New Roman", serif;
+      background: black;
       color: #2c2c2c;
-    }
-
-    /* Video de fondo */
-    #bg-video {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
-      object-fit: cover;
-      z-index: -1;
-    }
-
-    /* Contenedor de la aplicación */
-    #app {
-      position: relative;
-      width: 90vw;
-      max-width: 450px; /* formato móvil 9:16 */
-      height: 160vh;
-      display: none;
       overflow: hidden;
     }
 
-    /* Texto de la carta */
-    #text {
-      position: absolute;
-      top: 10%;
-      left: 7%;
-      right: 7%;
-      bottom: 20%;
-      font-size: 22px;
-      text-align: justify;
-      white-space: pre-line;
-      overflow-y: auto;
-    }
-
-    /* Botones */
-    #buttons {
-      position: absolute;
-      bottom: 5%;
-      left: 50%;
-      transform: translateX(-50%);
-      display: flex;
-      justify-content: center;
-      gap: 10px;
-      flex-wrap: wrap;
-    }
-
-    #buttons button {
-      padding: 12px 24px;
-      font-size: 18px;
-      border: none;
-      border-radius: 8px;
-      background: #d9c4a3;
-      cursor: pointer;
-      transition: background 0.3s;
-    }
-
-    #buttons button:hover {
-      background: #c6ae87;
-    }
-
-    /* Pantalla inicial */
     #start-screen {
       display: flex;
       justify-content: center;
       align-items: center;
       flex-direction: column;
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: 10;
     }
 
     #start-screen button {
       padding: 20px 40px;
-      font-size: 26px;
+      font-size: 30px;
       border: none;
       border-radius: 12px;
       background: #f0e4d7;
@@ -102,22 +45,74 @@
       background: #e6d2b5;
     }
 
+    /* Contenedor de la aplicación */
+    #app {
+      position: relative;
+      display: none;
+      width: 100%;
+      height: 100%;
+    }
+
+    /* Video de fondo */
+    #video-bg {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: -1;
+    }
+
+    /* Texto centrado */
+    #text {
+      position: absolute;
+      top: 25%;
+      left: 5%;
+      right: 5%;
+      bottom: 25%;
+      font-size: 20px;
+      text-align: justify;
+      white-space: pre-line;
+      overflow-y: auto;
+    }
+
+    /* Botones centrados */
+    #buttons {
+      position: absolute;
+      bottom: 10%;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    #buttons button {
+      padding: 14px 28px;
+      font-size: 20px;
+      border: none;
+      border-radius: 8px;
+      background: #d9c4a3;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    #buttons button:hover {
+      background: #c6ae87;
+    }
   </style>
 </head>
 <body>
-
-  <!-- Video de fondo -->
-  <video id="bg-video" autoplay muted loop>
-    <source src="video.mp4" type="video/mp4">
-  </video>
 
   <!-- Pantalla inicial -->
   <div id="start-screen">
     <button onclick="startApp()">Empezar</button>
   </div>
 
-  <!-- Contenedor de la carta -->
+  <!-- Contenedor de la app -->
   <div id="app">
+    <video id="video-bg" src="video.mp4" autoplay muted loop playsinline></video>
     <div id="text"></div>
     <div id="buttons"></div>
   </div>
@@ -196,5 +191,6 @@
       });
     }
   </script>
+
 </body>
 </html>
