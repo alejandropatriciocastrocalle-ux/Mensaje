@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Mensaje Interactivo - Móvil</title>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: black;
+      font-family: Georgia, "Times New Roman", serif;
+      color: #2c2c2c;
+      overflow: hidden;
+    }
+
+    #container {
+      position: relative;
+      width: 360px;       /* ancho típico de móvil */
+      height: 640px;      /* alto 9:16 */
+      background: black;
+      overflow: hidden;
+      border-radius: 20px; /* opcional, simula pantalla de móvil */
+      box-shadow: 0 0 20px rgba(0,0,0,0.7);
+    }
+
+    /* Video de fondo */
+    #bg-video {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: 1;
+    }
+
+    /* Contenido encima del video */
+    #app {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 2;
+      display: none;
+      flex-direction: column;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px;  /* margen general */
+      box-sizing: border-box;
+    }
+
+    #text {
+      font-size: 20px;
+      text-align: justify;
+      overflow-y: auto;
+      max-height: 70%;
+      width: 100%;
+      margin-bottom: 20px;
+    }
+
+    #buttons {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      width: 100%;
+    }
+
+    #buttons button {
+      padding: 12px 20px;
+      font-size: 18px;
+      border: none;
+      border-radius: 8px;
+      background: rgba(217,196,163,0.9);
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    #buttons button:hover {
+      background: rgba(198,174,135,0.9);
+    }
+
+    /* Pantalla inicial */
+    #start-screen {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 3;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    #start-screen button {
+      padding: 20px 40px;
+      font-size: 24px;
+      border: none;
+      border-radius: 12px;
+      background: #f0e4d7;
+      cursor: pointer;
+    }
+
+    #start-screen button:hover {
+      background: #e6d2b5;
+    }
+  </style>
+</head>
+<body>
+
+  <div id="container">
+    <!-- Video de fondo -->
+    <video id="bg-video" autoplay muted loop>
+      <source src="video.mp4" type="video/mp4">
+    </video>
+
+    <!-- Pantalla inicial -->
+    <div id="start-screen">
+      <button onclick="startApp()">Empezar</button>
+    </div>
+
+    <!-- Contenido interactivo -->
+    <div id="app">
+      <div id="text"></div>
+      <div id="buttons"></div>
+    </div>
+
+    <!-- Música de fondo -->
+    <audio id="bg-music" loop>
+      <source src="musica.mp3" type="audio/mpeg">
+    </audio>
+
+    <!-- Sonido de pasar página -->
+    <audio id="page-sound">
+      <source src="page.mp3" type="audio/mpeg">
+    </audio>
+  </div>
+
+  <script>
+    const app = document.getElementById("app");
+    const textElement = document.getElementById("text");
+    const buttonsElement = document.getElementById("buttons");
+    const startScreen = document.getElementById("start-screen");
+    const bgMusic = document.getElementById("bg-music");
+    const pageSound = document.getElementById("page-sound");
+
+    const screens = {
+      "PANTALLA 1": {
+        text: "Hola Ada, lo siento, no hay ningún proyecto, pero tengo un mensaje para ti, ¿me regalas un poco de tu tiempo?",
+        buttons: [
+          { label: "NO", next: "PANTALLA 1.1" },
+          { label: "CONTINUAR", next: "PANTALLA 2" }
+        ]
+      },
+      "PANTALLA 1.1": {
+        text: "por favor…",
+        buttons: [
+          { label: "está bien", next: "PANTALLA 2" }
+        ]
+      },
+      "PANTALLA 2": {
+        text: "Estuve muchos, muchos días y quizá el doble de noches tratando de comprender muchas cosas, en silencio...",
+        buttons: [
+          { label: "Final", next: "FIN" }
+        ]
+      },
+      "FIN": {
+        text: "Gracias por leer 💖",
+        buttons: [
+          { label: "Reiniciar", next: "PANTALLA 1" },
+          { label: "Salir", next: "SALIR" }
+        ]
+      }
+    };
+
+    function startApp() {
+      startScreen.style.display = "none";
+      app.style.display = "flex";
+      bgMusic.volume = 0.5;
+      bgMusic.play();
+      showScreen("PANTALLA 1");
+    }
+
+    function showScreen(id) {
+      const screen = screens[id];
+      textElement.textContent = screen.text;
+      buttonsElement.innerHTML = "";
+      screen.buttons.forEach(b => {
+        const btn = document.createElement("button");
+        btn.textContent = b.label;
+        btn.onclick = () => {
+          pageSound.currentTime = 0;
+          pageSound.play();
+          if (b.next === "SALIR") {
+            window.close();
+          } else {
+            showScreen(b.next);
+          }
+        };
+        buttonsElement.appendChild(btn);
+      });
+    }
+  </script>
+
+</body>
+</html>
